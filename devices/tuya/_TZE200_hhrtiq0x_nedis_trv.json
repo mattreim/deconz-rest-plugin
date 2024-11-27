@@ -1,10 +1,18 @@
 {
   "schema": "devcap1.schema.json",
-  "uuid": "edfadfce-d2d8-481a-967d-c46972c5b642",
-  "manufacturername": "_TZE200_2ekuz3dz",
-  "modelid": "TS0601",
-  "vendor": "Beok",
-  "product": "Under floor heating thermostat (TS0601)",
+  "uuid": "f2401df5-5635-4878-b176-e3246192b02c",
+  "manufacturername": [
+    "_TZE200_hhrtiq0x",
+    "_TZE200_ps5v5jor",
+    "_TZE200_2cs6g9i7"
+  ],
+  "modelid": [
+    "TS0601",
+    "TS0601",
+    "TS0601"
+  ],
+  "vendor": "Tuya",
+  "product": "Nedis TRV (TS0601)",
   "sleeper": false,
   "status": "Gold",
   "subdevices": [
@@ -21,7 +29,7 @@
           "config/mode": {
             "auto": 0,
             "heat": 1,
-            "off": 3
+            "off": 2
           }
         }
       },
@@ -54,11 +62,11 @@
           "name": "attr/uniqueid"
         },
         {
-          "name": "state/lowbattery",
+          "name": "config/battery",
           "parse": {
             "fn": "tuya",
-            "dpid": 35,
-            "eval": "Item.val = Attr.val != 0"
+            "dpid": 21,
+            "eval": "Item.val = Attr.val;"
           },
           "read": {
             "fn": "none"
@@ -68,12 +76,12 @@
           "name": "config/heatsetpoint",
           "parse": {
             "fn": "tuya",
-            "dpid": 16,
+            "dpid": 2,
             "eval": "Item.val = Attr.val * 10;"
           },
           "write": {
             "fn": "tuya",
-            "dpid": 16,
+            "dpid": 2,
             "dt": "0x2b",
             "eval": "Item.val / 10;"
           },
@@ -85,12 +93,12 @@
           "name": "config/locked",
           "parse": {
             "fn": "tuya",
-            "dpid": 40,
+            "dpid": 7,
             "eval": "Item.val = Attr.val;"
           },
           "write": {
             "fn": "tuya",
-            "dpid": 40,
+            "dpid": 7,
             "dt": "0x10",
             "eval": "Item.val;"
           },
@@ -105,6 +113,23 @@
           "name": "config/reachable"
         },
         {
+          "name": "config/windowopen_set",
+          "parse": {
+            "fn": "tuya",
+            "dpid": 18,
+            "eval": "Item.val = Attr.val;"
+          },
+          "write": {
+            "fn": "tuya",
+            "dpid": 18,
+            "dt": "0x10",
+            "eval": "Item.val;"
+          },
+          "read": {
+            "fn": "none"
+          }
+        },
+        {
           "name": "config/mode",
           "values": [
             [
@@ -117,19 +142,36 @@
             ],
             [
               "off",
-              3
+              2
             ]
           ],
           "parse": {
             "fn": "tuya",
-            "dpid": 2,
+            "dpid": 106,
             "eval": "if (Attr.val == 0) { Item.val = 'auto' } else if (Attr.val == 1) { Item.val = 'heat' } else { Item.val = 'off' }"
           },
           "write": {
             "fn": "tuya",
-            "dpid": 2,
+            "dpid": 106,
             "dt": "0x30",
-            "eval": "if (Item.val == 'auto') { 0 } else if (Item.val == 'heat') { 1 } else { 3 }"
+            "eval": "if (Item.val == 'auto') { 0 } else if (Item.val == 'heat') { 1 } else { 2 }"
+          },
+          "read": {
+            "fn": "none"
+          }
+        },
+        {
+          "name": "config/preset",
+          "parse": {
+            "fn": "tuya",
+            "dpid": 4,
+            "script": "tuya_trv_preset.js"
+          },
+          "write": {
+            "fn": "tuya",
+            "dpid": 4,
+            "dt": "0x30",
+            "script": "tuya_trv_preset_set.js"
           },
           "read": {
             "fn": "none"
@@ -142,8 +184,19 @@
           "name": "state/temperature",
           "parse": {
             "fn": "tuya",
-            "dpid": 24,
+            "dpid": 3,
             "eval": "Item.val = Attr.val * 10;"
+          },
+          "read": {
+            "fn": "none"
+          }
+        },
+        {
+          "name": "state/valve",
+          "parse": {
+            "fn": "tuya",
+            "dpid": 109,
+            "eval": "Item.val = Attr.val > 5;"
           },
           "read": {
             "fn": "none"
