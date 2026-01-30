@@ -117,11 +117,7 @@
         },
         {
           "name": "state/vibration",
-          "awake": true,
-          "parse": {
-            "fn": "ias:zonestatus",
-            "mask": "alarm2"
-          }
+          "awake": true
         }
       ]
     }
