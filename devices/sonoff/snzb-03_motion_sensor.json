@@ -98,11 +98,7 @@
         },
         {
           "name": "state/presence",
-          "awake": true,
-          "parse": {
-            "fn": "ias:zonestatus",
-            "mask": "alarm1"
-          }
+          "awake": true
         }
       ]
     }
