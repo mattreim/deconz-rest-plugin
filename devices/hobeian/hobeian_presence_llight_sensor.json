@@ -76,7 +76,7 @@
           "default": 0
         },
         {
-          "name": "config/duration",
+          "name": "config/delay",
           "parse": {
             "dpid": 10,
             "eval": "Item.val = Attr.val",
